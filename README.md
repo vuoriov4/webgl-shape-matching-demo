@@ -7,3 +7,7 @@ You can try it out <a href="https://vuoriov4.github.io/shape-matching-demo/">her
 <a href="https://www.cs.drexel.edu/~david/Classes/Papers/MeshlessDeformations_SIG05.pdf">Meshless Deformations Based on Shape Matching (pdf)</a>
 
 <a href="https://threejs.org/">ThreeJS</a>
+
+<a href="http://www.custommapmakers.org/skyboxes.php">Skybox texture</a>
+         
+<a href="https://www.turbosquid.com/3d-models/male-head-obj/346686">Head model</a>
