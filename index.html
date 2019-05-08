@@ -19,11 +19,18 @@
      b {
        font-size: 16px;
      }
-      #description, #link, #actions {
+      #description, #link, #actions, #parameters {
         position: absolute;
         z-index: 2;
         font-family: sans-serif;
         border-radius: 5px;
+      }
+      #parameters {
+        left: 20px;
+        top: 100px;
+        padding: 10px;
+        background: white;
+        border: 1px solid black;
       }
       #description {
         left: 20px;
@@ -31,6 +38,13 @@
         padding: 10px;
         background: white;
         border: 1px solid black;
+      }
+      p {
+        padding: 0px;
+        margin: 0px;
+      }
+      p > b {
+        font-size: 14px;
       }
       #link {
         left: 20px;
@@ -45,7 +59,63 @@
   <body>
     <div id="description">
       <b>Shape Matching Demo</b><br>
-      Click and hold the mesh to deform
+      Click and hold the mesh to deform.<br>
+    </div>
+    <div id="parameters">
+      <p><b>Stiffness</b></p>
+      <select id="select-stiffness">
+        <option value="0.0">0.0</option>
+        <option value="0.025">0.025</option>
+        <option value="0.05" selected>0.05</option>
+        <option value="0.1">0.1</option>
+        <option value="0.2">0.2</option>
+        <option value="0.3">0.3</option>
+        <option value="0.4">0.4</option>
+        <option value="0.5">0.5</option>
+        <option value="0.6">0.6</option>
+        <option value="0.7">0.7</option>
+        <option value="0.8">0.8</option>
+        <option value="0.9">0.9</option>
+        <option value="1.0">1.0</option>
+      </select>
+      <p><b>Beta</b></p>
+      <select id="select-beta">
+        <option value="0.0">0.0</option>
+        <option value="0.1">0.1</option>
+        <option value="0.2">0.2</option>
+        <option value="0.3">0.3</option>
+        <option value="0.4">0.4</option>
+        <option value="0.5">0.5</option>
+        <option value="0.6">0.6</option>
+        <option value="0.7">0.7</option>
+        <option value="0.8">0.8</option>
+        <option value="0.9" selected>0.9</option>
+        <option value="1.0">1.0</option>
+      </select>
+      <p><b>Damping</b></p>
+      <select id="select-damping">
+        <option value="0.025">0.025</option>
+        <option value="0.05" selected>0.05</option>
+        <option value="0.1">0.1</option>
+        <option value="0.2">0.2</option>
+        <option value="0.3">0.3</option>
+        <option value="0.4">0.4</option>
+        <option value="0.5">0.5</option>
+        <option value="0.6">0.6</option>
+        <option value="0.7">0.7</option>
+        <option value="0.8">0.8</option>
+        <option value="0.9">0.9</option>
+        <option value="1.0">1.0</option>
+      </select>
+      <p><b>Deformation mode</b></p>
+      <select id="select-deformation-mode">
+        <option value="1.0">Outwards</option>
+        <option value="-1.0">Inwards</option>
+      </select>
+      <p><b>Reset</b></p>
+      <p>
+        <button id="reset-button">Click me to reset</button>
+      </p>
     </div>
     <div id="link"><a href="https://github.com/vuoriov4/shape-matching-demo">Source code</a></div>
     <script id="vertexShader" type="x-shader/x-vertex">
@@ -67,21 +137,21 @@
       varying vec3 vPosition;
       varying vec3 vNormal;
     	void main()	{
-        vec3 light_direction = normalize(vec3(0.0, 0.0, 1.0));
+        vec3 light_direction = normalize(vec3(1.0, 1.0, 1.0));
         vec3 direction = normalize(2.0*dot(light_direction, vNormal)*vNormal - light_direction);
         vec3 view = normalize(cameraPosition - vPosition);
-        float specular_intensity = pow(max(0.0, dot(direction, view)), 1.5);
-        vec3 specular_color = vec3(0.35);
+        float specular_intensity = pow(max(0.0, dot(direction, view)), 2.0);
+        vec3 specular_color = vec3(0.25);
         float diffuse_intensity  = max(0.0, dot(vNormal, light_direction));
         vec3 diffuse_color = vec3(0.25);
         vec3 ambient_color = vec3(0.0);
         float ambient_intensity = 0.0;
-        float reflection_intensity = 0.25;
+        float reflection_intensity = 0.33;
         vec3 reflect_direction = normalize(vPosition - cameraPosition);
         reflect_direction -= 2.0*dot(reflect_direction, vNormal) * vNormal;
         vec3 reflection_color = textureCube(tCube, vec3(-reflect_direction.x, reflect_direction.y, reflect_direction.z)).xyz;
         vec3 transparent_direction = normalize(vPosition - cameraPosition);
-        float transparent_intensity = 0.15;
+        float transparent_intensity = 0.0;
         vec3 transparent_color = textureCube(tCube, vec3(-transparent_direction.x, transparent_direction.y, transparent_direction.z)).xyz;
         gl_FragColor = vec4(
           ambient_intensity * ambient_color +

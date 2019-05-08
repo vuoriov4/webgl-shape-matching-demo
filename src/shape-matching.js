@@ -1,7 +1,7 @@
 import * as Matrix from './matrix.js'
 import JacobiEigenvalueAlgorithm from '../lib/jacobi-eigenvalue-algorithm.min.js';
 
-let EPSILON = 0.001;
+let EPSILON = 0.00000001;
 let ITERATIONS = 100;
 let precomputed = false;
 let x0_avg = null;
