@@ -1,6 +1,6 @@
 <h1>Shape Matching Demo</h1>
 This little demo is an example of real-time elastic deformation based on Shape Matching.
-You can see it in action <a href="https://vuoriov4.github.io/shape-matching-demo/">here</a>. 
+You can see it in action here https://vuoriov4.github.io/webgl-shape-matching-demo/
 
 <h2>Credits</h2>
 
