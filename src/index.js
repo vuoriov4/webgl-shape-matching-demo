@@ -6,8 +6,8 @@ import { ShapeMatcher } from './shape-matching.js';
 // Simulation parameters
 let T = 0.0;
 let DT = 0.0;
-let DEFORMATION_SPEED = 200.0;
-let DEFORMATION_SPREAD = 4.0;
+let DEFORMATION_SPEED = 50.0;
+let DEFORMATION_SPREAD = 1.0;
 let STIFFNESS = 0.05;
 let BETA = 0.9;
 let DAMP = 0.05;
@@ -47,7 +47,7 @@ console.log(clusters);
 loader.load(
 	'objects/head.obj',
 	function ( object ) {
-		geometry = new THREE.Geometry().fromBufferGeometry(object.children[0].geometry).scale(0.10,0.10,0.10).translate(0,0.25,0);
+		geometry = new THREE.Geometry().fromBufferGeometry(object.children[0].geometry).scale(0.10,0.10,0.10).translate(0,0.25,0).rotateY(0);
 		//geometry = new THREE.BoxGeometry(1.25, 1.25, 1.25, 30, 30, 30);
 		console.log(geometry);
 		geometry.vertices.forEach((v,i) => {
@@ -129,9 +129,9 @@ let updateMesh = () => {
       avgx /= avgr; avgy /= avgr; avgz /= avgr;
       geometry.vertices.forEach((v, i) => {
         let r = Math.sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
-        v._velocity.x -= 2.5 * avgx;
-        v._velocity.y -= 2.5 * avgy;
-        v._velocity.z -= 2.5 * avgz;
+        v._velocity.x -= 1.0 * avgx;
+        v._velocity.y -= 1.0 * avgy;
+        v._velocity.z -= 1.0 * avgz;
       });
     }
   }
@@ -150,10 +150,10 @@ var animate = function () {
 	let t = Date.now();
 	msPerFrame = t - currentTime;
 	currentTime = t;
-	DT = msPerFrame / 100000.0;
+	DT = msPerFrame / 20000.0;
 	updateMesh();
 	geometry.verticesNeedUpdate = true;
-  geometry.computeVertexNormals();
+	geometry.computeVertexNormals();
   cameraAngle += cameraSpeed;
   camera.position.y = cameraY;
   camera.position.z = Math.sin(cameraAngle) * cameraRadius;
